@@ -1,0 +1,21 @@
+{
+  "name": "balena-device",
+  "version": "0.1.0",
+  "description": "A simple ws client on balena",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node client.js"
+  },
+  "dependencies": {
+    "autobahn": "^18.10.2",
+    "ejs": "*",
+    "express": "*",
+    "gpio": "^0.2.10",
+    "prompt": "^1.0.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "balena-cli": "^9.7.0"
+  }
+}
