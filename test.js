@@ -24,12 +24,12 @@ function loop(device_uuid) {
 
   connection.onopen = function (session) {
     setInterval(function () {
-      session.call('com.lucasantarella.iot.device.' + device_uuid + 'status').then(
+      session.call('com.lucasantarella.iot.devices.' + device_uuid + 'status').then(
         function (resp) {
           console.log('Device is currently: ' + resp);
         }
       );
-      session.publish('com.lucasantarella.iot.device.' + device_uuid, ['1']);
+      session.publish('com.lucasantarella.iot.devices.' + device_uuid, ['1']);
     }, 2000)
   };
 
