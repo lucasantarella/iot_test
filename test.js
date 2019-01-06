@@ -2,10 +2,10 @@
 const autobahn = require('autobahn');
 const prompt = require('prompt');
 
-const ws_host = process.env.WS_HOST || 'localhost';
+const ws_host = process.env.WS_HOST || 'iot.lucasantarella';
 const ws_realm = process.env.WS_REALM || 'com.lucasantarella.iot';
-const ws_port = process.env.WS_PORT || '8080';
-const ws_wss = process.env.WS_WSS || 'ws';
+const ws_port = process.env.WS_PORT || '9443';
+const ws_wss = process.env.WS_WSS || 'wss';
 
 let device_uuid = '';
 prompt.start();
@@ -16,7 +16,11 @@ prompt.get(['uuid'], function (err, result) {
 
 
 function loop(device_uuid) {
-  let connection = new autobahn.Connection({url: ws_wss + '://' + ws_host + ':' + ws_port + '/', realm: ws_realm});
+  let connection = new autobahn.Connection({
+    url: ws_wss + '://' + ws_host + ':' + ws_port + '/',
+    realm: ws_realm,
+    tlsConfiguration: {}
+  });
 
   connection.onopen = function (session) {
     setInterval(function () {

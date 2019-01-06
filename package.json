@@ -13,7 +13,8 @@
     "express": "*",
     "gpio": "^0.2.10",
     "prompt": "^1.0.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "ws": "^6.1.2"
   },
   "devDependencies": {
     "balena-cli": "^9.7.0"

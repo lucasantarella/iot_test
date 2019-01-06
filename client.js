@@ -20,7 +20,11 @@ const ws_realm = process.env.WS_REALM || 'com.lucasantarella.iot';
 const ws_port = process.env.WS_PORT || '80';
 const ws_wss = process.env.WS_WSS || 'ws';
 
-var connection = new autobahn.Connection({url: ws_wss + '://' + ws_host + ':' + ws_port + '/', realm: ws_realm});
+let connection = new autobahn.Connection({
+  url: ws_wss + '://' + ws_host + ':' + ws_port + '/',
+  realm: ws_realm,
+  tlsConfiguration: {}
+});
 
 connection.onopen = function (session) {
   // 1) subscribe to a topic
