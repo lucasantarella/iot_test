@@ -1,4 +1,5 @@
 'use strict';
+const underscore = require('underscore');
 const request = require('request');
 const autobahn = require('autobahn');
 const uuidv4 = require('uuid/v4');
@@ -35,7 +36,7 @@ let connection = new autobahn.Connection({
   tlsConfiguration: {}
 });
 
-function registerWithApi () {
+function registerWithApi() {
   request.post(api_uri + '/devices', {
     json: {
       "id": device_uuid,
@@ -67,25 +68,46 @@ function registerWithApi () {
   })
 }
 
-connection.onopen = function (session) {
+connection.onopen = (session) => {
   registerWithApi();
 
-  function onevent(args) {
+  session.subscribe('com.lucasantarella.iot.devices.' + device_uuid, (args) => {
     console.log("Event:", args[0]);
     gpio4.set(!(gpio4.value), function () {
       console.log("GPIO Set to " + gpio4.value)
     });
-  }
-
-  session.subscribe('com.lucasantarella.iot.devices.' + device_uuid, onevent);
-
-  session.register('com.lucasantarella.iot.devices.' + device_uuid + '.status', function () {
-    return gpio4.value;
   });
 
-  session.register('com.lucasantarella.iot.devices.' + device_uuid + '.execute', function (command) {
-    console.log(command);
-    return gpio4.value;
+  session.register('com.lucasantarella.iot.devices.' + device_uuid + '.status', () => {
+    return {
+      online: true,
+      on: gpio4.value === 1
+    };
+  });
+
+  session.register('com.lucasantarella.iot.devices.' + device_uuid + '.execute', (commands) => {
+    let promises = [];
+    _.each(commands, (command, index) => {
+      promises.push(new Promise((fulfilledHandler, error) => {
+        switch (command.command) {
+          case 'action.devices.commands.OnOff':
+            // Handle on/off switch
+            gpio4.set(command.params.on);
+            fulfilledHandler(true);
+            break;
+
+          default:
+            error('could not process command');
+        }
+      }))
+    });
+
+    return Promise.all(promises).then(values => {
+      return {
+        online: true,
+        on: gpio4.value === 1
+      };
+    })
   });
 };
 
