@@ -2,7 +2,7 @@
 const autobahn = require('autobahn');
 const prompt = require('prompt');
 
-const ws_host = process.env.WS_HOST || 'iot.lucasantarella';
+const ws_host = process.env.WS_HOST || 'iot.lucasantarella.com';
 const ws_realm = process.env.WS_REALM || 'com.lucasantarella.iot';
 const ws_port = process.env.WS_PORT || '9443';
 const ws_wss = process.env.WS_WSS || 'wss';
@@ -24,7 +24,7 @@ function loop(device_uuid) {
 
   connection.onopen = function (session) {
     setInterval(function () {
-      session.call('com.lucasantarella.iot.devices.' + device_uuid + 'status').then(
+      session.call('com.lucasantarella.iot.devices.' + device_uuid + '.status').then(
         function (resp) {
           console.log('Device is currently: ' + resp);
         }

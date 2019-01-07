@@ -79,7 +79,7 @@ connection.onopen = function (session) {
 
   session.subscribe('com.lucasantarella.iot.devices.' + device_uuid, onevent);
 
-  session.register('com.lucasantarella.iot.devices.' + device_uuid + 'status', function () {
+  session.register('com.lucasantarella.iot.devices.' + device_uuid + '.status', function () {
     return gpio4.value;
   });
 };
