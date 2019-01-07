@@ -68,6 +68,8 @@ function registerWithApi () {
 }
 
 connection.onopen = function (session) {
+  registerWithApi();
+
   function onevent(args) {
     console.log("Event:", args[0]);
     gpio4.set(!(gpio4.value), function () {
