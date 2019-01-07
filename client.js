@@ -27,7 +27,7 @@ const api_host = process.env.API_HOST || '043f38db.ngrok.io';
 const api_port = process.env.API_PORT || '80';
 const api_https = process.env.API_HTTPS || 'https';
 
-const api_uri = api_https + '://' + api_host + ':' + api_port + '/';
+const api_uri = api_https + '://' + api_host + ':' + api_port;
 
 let connection = new autobahn.Connection({
   url: ws_wss + '://' + ws_host + ':' + ws_port,
